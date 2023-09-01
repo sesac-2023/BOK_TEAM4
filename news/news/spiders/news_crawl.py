@@ -32,8 +32,8 @@ class NewsSpider(scrapy.Spider):
         company = [1001, 2227, 1018]
         keyword = '금리'
 
-        start_date = date(2017, 1, 1)
-        end_date = date(2017, 1, 31)
+        start_date = date(2009, 1, 1)
+        end_date = date(2009, 12, 31)
         delta = timedelta(days=1)
         search_day = start_date
 
