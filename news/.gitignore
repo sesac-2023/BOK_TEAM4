@@ -13,6 +13,7 @@
     #2) 충돌이 일어났으면 
 
 
+*.csv
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/

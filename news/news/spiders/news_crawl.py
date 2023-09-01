@@ -32,8 +32,8 @@ class NewsSpider(scrapy.Spider):
         company = [1001, 2227, 1018]
         keyword = '금리'
 
-        start_date = date(2009, 1, 1)
-        end_date = date(2009, 12, 31)
+        start_date = date(2015, 1, 15)
+        end_date = date(2015, 1, 15)
         delta = timedelta(days=1)
         search_day = start_date
 
@@ -50,14 +50,24 @@ class NewsSpider(scrapy.Spider):
             search_day += delta
 
     def news_list(self, response):
-        detail_urls = response.css('div.info_group > a:nth-child(3)::attr(href)').getall()
-        for detail_url in detail_urls:
-            try:
-                yield scrapy.Request(url=detail_url, callback=self.news_detail, headers=headers)
-            except:
-                continue
+        if response.css('div.info_group > a:nth-child(3)::attr(href)'):
+            detail_urls = response.css('div.info_group > a:nth-child(3)::attr(href)').getall()
+            for detail_url in detail_urls:
+                try:
+                    yield scrapy.Request(url=detail_url, callback=self.naver_news_detail, headers=headers)
+                except Exception as e:
+                    print(e)
+                    continue
+        else:
+            detail_urls = response.css('a.news_tit::attr(href)').getall()
+            for detail_url in detail_urls:
+                try:
+                    yield scrapy.Request(url=detail_url, callback=self.news_detail, headers=headers)
+                except Exception as e:
+                    print(e)
+                    continue
 
-    def news_detail(self, response):
+    def naver_news_detail(self, response):
     
         title = response.css('#title_area > span::text').getall()
         date = response.xpath('//*[@id="ct"]/div[1]/div[3]/div[1]/div/span/text()').getall()
@@ -88,4 +98,33 @@ class NewsSpider(scrapy.Spider):
             'contents': contents
         }
        
+    def news_detail(self, response):
+
+        title = response.css('#article-view > div > header > h3').getall()
+        date = response.xpath('//*[@id="article-view"]/div/header/div/article[1]/ul/li[2]/text()').getall()
+        contents = response.css('#article-view-content-div').getall()
+    
+        def process_title(text):
+            processed_text = hanja.translate(text, 'substitution') #한자 변환
+            processed_text = re.sub(r'"|<.*?>|[\r\n\t]+|\s+|[#$^&*[\]{}<>/|』◇◆▲()""△''■□=·●]', ' ', processed_text)
+            return processed_text.strip()
         
+        def process_date(text):
+            processed_text = re.sub(r'"|<.*?>|[\r\n\t]+|\s+', ' ', text)
+            processed_text = re.sub(r'(\d{4}\.\d{2}\.\d{2}\.)\s.*', r'\1', processed_text) #시간 제거
+            return processed_text.strip()
+
+        def process_content(text):
+            processed_text = re.sub(r'\S+@\S+', '', text)   #이메일 주소 제거
+            processed_text = re.sub(r'"|<.*?>|[\r\n\t]+|\s+|[#$^&*[\]{}<>/|』◇◆▲()""△''■□=·●]', ' ', processed_text)   #특수문자 제거
+            return processed_text.strip()
+
+        title = process_title(' '.join(title))
+        date = process_date(' '.join(date))
+        contents = process_content(''.join(contents))
+
+        yield {
+            'title': title,
+            'date': date,
+            'contents': contents
+        }
