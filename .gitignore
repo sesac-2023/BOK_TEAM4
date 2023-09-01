@@ -1,0 +1,8 @@
+*.txt
+*.csv
+*.jpeg
+*.png
+*.json
+db_config
+secret
+*.pkl
