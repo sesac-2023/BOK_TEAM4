@@ -6,5 +6,5 @@
 db_config
 secret
 *.pkl
-*.xlxs
+*.xlsx
 *.pdf
