@@ -36,8 +36,8 @@ class NaverFinanceNewsSpider(scrapy.Spider):
     def __init__(self, *args, **kwargs):
         super(NaverFinanceNewsSpider, self).__init__(*args, **kwargs)
         self.base_url = 'https://finance.naver.com/news/news_search.naver?rcdate=&q=%B1%DD%B8%AE&x=0&y=0&sm=all.basic&pd=4&stDateStart={}&stDateEnd={}&page={}'
-        self.current_date = datetime(2018, 1, 1)
-        self.end_date = datetime(2018, 7, 31)
+        self.current_date = datetime(2018, 8, 1)
+        self.end_date = datetime(2019, 3, 31)
         self.current_page = 1
 
     def start_requests(self):
