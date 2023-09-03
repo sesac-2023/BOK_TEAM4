@@ -7,8 +7,12 @@ db_config
 secret
 *.pkl
 <<<<<<< HEAD
+<<<<<<< HEAD
 *.xlxs
 =======
 *.xlsx
 >>>>>>> 719990a128f82d3118c81a078a30461d71861df4
+=======
+*.xlsx
+>>>>>>> 3fc098d9698102def0253b7458e49faa6312ccae
 *.pdf
