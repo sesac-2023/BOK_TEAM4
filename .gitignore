@@ -6,5 +6,9 @@
 db_config
 secret
 *.pkl
+<<<<<<< HEAD
 *.xlxs
+=======
+*.xlsx
+>>>>>>> 719990a128f82d3118c81a078a30461d71861df4
 *.pdf
