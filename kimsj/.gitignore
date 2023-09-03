@@ -1,0 +1,13 @@
+*.txt
+*.csv
+*.jpeg
+*.png
+*.json
+db_config
+secret
+*.pkl
+*.xlsx
+*.pdf
+news
+금통위
+data_crawling_preprocess.ipynb
