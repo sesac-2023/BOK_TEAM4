@@ -45,7 +45,7 @@ class DataPreprocessing:
     print("전처리 진행중")
         
 
-data_processor = DataPreprocessing('./news_call')
+data_processor = DataPreprocessing('./news_call.csv')
 preprocessed_data = data_processor.preprocess_data()
 
 preprocessed_data.to_csv('./save_news.csv')
