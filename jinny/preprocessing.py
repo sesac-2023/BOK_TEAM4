@@ -1,7 +1,7 @@
 '''
 #코드 실행 시 참고사항
-[48번째 줄] data_processor = DataPreprocessing('./news_temp.csv') <<< './news_temp.csv' 부분에 전처리 진행할 파일 경로 설정
-[51번째 줄] preprocessed_data.to_csv('./save_preprocessing.csv') <<< 전처리 완료된 결과를 저장할 csv 파일명과 저장 경로 설정
+[48번째 줄] data_processor = DataPreprocessing('./news_call.csv') <<< './news_temp.csv' 부분에 전처리 진행할 파일 경로 설정
+[51번째 줄] preprocessed_data.to_csv('./save.csv') <<< 전처리 완료된 결과를 저장할 csv 파일명과 저장 경로 설정
 '''
 
 import pandas as pd
@@ -39,8 +39,8 @@ class DataPreprocessing:
         total_news['pos_tagging'] = total_news['text'].apply(self.pos_tag)
         total_news['remove_stopPos'] = total_news['pos_tagging'].apply(self.rm_stopPos)
         total_news['synonyms'] = total_news['remove_stopPos'].apply(self.synonyms)
-        total_news['lemmas'] = total_news['synonyms'].apply(self.lemmas)
-        return total_news[['date', 'lemmas']]
+        total_news['result'] = total_news['synonyms'].apply(self.lemmas)
+        return total_news[['result', 'up_down']]
     
     print("전처리 진행중")
         
