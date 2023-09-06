@@ -1,7 +1,7 @@
 '''
 #코드 실행 시 참고사항
-[51번째 줄] data_processor = DataPreprocessing('./news_temp.csv') <<< './news_temp.csv' 부분에 전처리 진행할 파일 경로 설정
-[54번째 줄] preprocessed_data.to_csv('./save_preprocessing.csv') <<< 전처리 완료된 결과를 저장할 csv 파일명과 저장 경로 설정
+[48번째 줄] data_processor = DataPreprocessing('./news_temp.csv') <<< './news_temp.csv' 부분에 전처리 진행할 파일 경로 설정
+[51번째 줄] preprocessed_data.to_csv('./save_preprocessing.csv') <<< 전처리 완료된 결과를 저장할 csv 파일명과 저장 경로 설정
 '''
 
 import pandas as pd
@@ -36,7 +36,7 @@ class DataPreprocessing:
 
     def preprocess_data(self):
         total_news = self.making_df()
-        total_news['pos_tagging'] = total_news['title_contents'].apply(self.pos_tag)
+        total_news['pos_tagging'] = total_news['text'].apply(self.pos_tag)
         total_news['remove_stopPos'] = total_news['pos_tagging'].apply(self.rm_stopPos)
         total_news['synonyms'] = total_news['remove_stopPos'].apply(self.synonyms)
         total_news['lemmas'] = total_news['synonyms'].apply(self.lemmas)
@@ -45,8 +45,9 @@ class DataPreprocessing:
     print("전처리 진행중")
         
 
-data_processor = DataPreprocessing('./news_temp.csv')
+data_processor = DataPreprocessing('./news_call')
 preprocessed_data = data_processor.preprocess_data()
 
-preprocessed_data.to_csv('./save_preprocessing.csv')
+preprocessed_data.to_csv('./save_news.csv')
+print(preprocessed_data)
 print("전처리 완료")
